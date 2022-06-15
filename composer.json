@@ -1,0 +1,55 @@
+{
+    "name": "ibnuhalimm/laravel-tripay",
+    "description": "Laravel Package for Tripay Payment Gateway",
+    "keywords": [
+        "ibnuhalimm",
+        "laravel-tripay",
+        "payment-gateway"
+    ],
+    "homepage": "https://github.com/ibnuhalimm/laravel-tripay",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Ibnu Halim Mustofa",
+            "email": "ibnuhalim@pm.me",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0|^9.0",
+        "guzzlehttp/guzzle": "^6.5.5|^7.0.1"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.0",
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ibnuhalimm\\LaravelTripay\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ibnuhalimm\\LaravelTripay\\TripayServiceProvider"
+            ],
+            "aliases": {
+                "Tripay": "Ibnuhalimm\\LaravelTripay\\Facades\\Tripay"
+            }
+        }
+    }
+}
