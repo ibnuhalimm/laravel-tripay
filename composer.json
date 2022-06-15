@@ -1,6 +1,6 @@
 {
     "name": "ibnuhalimm/laravel-tripay",
-    "description": "Laravel Package for Tripay Payment Gateway",
+    "description": "Laravel Wrapper for Tripay Payment Gateway",
     "keywords": [
         "ibnuhalimm",
         "laravel-tripay",
