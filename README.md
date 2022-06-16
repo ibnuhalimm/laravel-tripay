@@ -70,6 +70,14 @@ use Ibnuhalimm\LaravelTripay\Facades\Tripay;
 Tripay::transactions();
 ```
 
+#### Get Transaction Details
+```php
+use Ibnuhalimm\LaravelTripay\Facades\Tripay;
+
+$reference = 'DEV-T11958501451EJYV'; // Get from create transaction response / Transaction list
+Tripay::transactionDetails($reference);
+```
+
 #### Create a Transaction
 ```php
 use Ibnuhalimm\LaravelTripay\Facades\Tripay;
