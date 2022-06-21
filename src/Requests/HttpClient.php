@@ -4,13 +4,14 @@ namespace Ibnuhalimm\LaravelTripay\Requests;
 
 use GuzzleHttp\Client;
 use Ibnuhalimm\LaravelTripay\BaseApi;
-use Ibnuhalimm\LaravelTripay\Exceptions\InvalidConfig;
-use Ibnuhalimm\LaravelTripay\Payment;
 
 class HttpClient
 {
     /** @var GuzzleHttp/Client */
     protected $http;
+
+    /** @var BaseApi */
+    protected $baseApi;
 
     /** @var array */
     protected $headerOptions = [];
@@ -18,15 +19,18 @@ class HttpClient
     /**
      * Create new instance.
      *
+     * @param  BaseApi  $baseApi
      * @return void
      */
-    public function __construct()
+    public function __construct(BaseApi $baseApi)
     {
+        $this->baseApi = $baseApi;
+
         $this->http = new Client([
-            'base_uri' => BaseApi::getBaseUrl()
+            'base_uri' => $this->baseApi->getBaseUrl()
         ]);
 
-        $this->headerOptions = $this->getDefaultHeaders();
+        $this->headerOptions = $this->baseApi->getDefaultHeaders();
     }
 
     /**
@@ -40,7 +44,7 @@ class HttpClient
      */
     public function call(string $method, string $endPoint, array $payload = [], array $headers = [])
     {
-        $headerOptions = $this->mergeHeaders($headers);
+        $headerOptions = $this->baseApi->mergeHeaders($headers);
 
         $requestOptions = [
             'headers' => $headerOptions,
@@ -81,40 +85,5 @@ class HttpClient
     public function get(string $endPoint, array $urlParams = [], array $headers = [])
     {
         return $this->call('GET', $endPoint, $urlParams, $headers);
-    }
-
-    /**
-     * Get default headers
-     *
-     * @return array
-     * @throws InvalidConfig
-     */
-    public function getDefaultHeaders()
-    {
-        if (empty(config('laravel-tripay.api_key'))) {
-            throw InvalidConfig::missingApiKey();
-        }
-
-        return [
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-            'User-Agent' => 'laravel-midtrans-' . Payment::VERSION,
-            'Authorization' => 'Bearer ' . config('laravel-tripay.api_key', '')
-        ];
-    }
-
-    /**
-     * Merge the default and incoming headers.
-     *
-     * @param  array  $headers
-     * @return array
-     */
-    public function mergeHeaders(array $headers = [])
-    {
-        $defaultHeaders = $this->getDefaultHeaders();
-
-        return collect(array_merge($defaultHeaders, $headers))->mapWithKeys(function ($value, $name) {
-            return [$name => $value];
-        })->all();
     }
 }

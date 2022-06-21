@@ -10,18 +10,46 @@ class Payment
     /** @var string */
     const VERSION = '1.x';
 
+    /** @var ConfigManager */
+    protected $configManager;
+
     /** @var HttpClient */
     protected $httpClient;
 
     /**
      * Create new instance.
      *
-     * @param  HttpClient $httpClient
+     * @param  ConfigManager  $configManager
+     * @param  HttpClient  $httpClient
      * @return void
      */
-    public function __construct(HttpClient $httpClient)
+    public function __construct(ConfigManager $configManager, HttpClient $httpClient)
     {
         $this->httpClient = $httpClient;
+        $this->configManager = $configManager;
+    }
+
+    /**
+     * Override the default config.
+     *
+     * @param  array  $attributes
+     * @return $this
+     */
+    public function setConfig(array $attributes = [])
+    {
+        foreach ($attributes as $key => $value) {
+            if ($key == 'merchant_code') {
+                $this->configManager->set('merchant_code', $value);
+            } else if ($key == 'api_key') {
+                $this->configManager->set('api_key', $value);
+            } else if ($key == 'private_key') {
+                $this->configManager->set('private_key', $value);
+            } else if ($key == 'production_mode') {
+                $this->configManager->set('production_mode', $value);
+            }
+        }
+
+        return $this;
     }
 
     /**
