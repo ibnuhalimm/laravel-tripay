@@ -148,6 +148,19 @@ $params = [
 Tripay::createTransaction($params);
 ```
 
+
+#### Override Default Config
+```php
+use Ibnuhalimm\LaravelTripay\Facades\Tripay;
+
+// Override the default config
+Tripay::setConfig([
+    'merchant_code' => 'NEW-CODE',
+    'api_key' => 'ANOTHER-API-KEY',
+    ...
+])->paymentChannels();
+```
+
 ## Testing
 
 ```bash
