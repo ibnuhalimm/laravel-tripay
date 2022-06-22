@@ -109,13 +109,13 @@ class Payment
     /**
      * Create a transaction.
      *
-     * @param  array  $params
+     * @param  array  $payload
      * @return mixed
      */
-    public function createTransaction(array $params)
+    public function createTransaction(array $payload)
     {
-        $merchantRef = isset($params['merchant_ref']) ? $params['merchant_ref'] : '';
-        $amount = isset($params['amount']) ? $params['amount'] : 0;
+        $merchantRef = isset($payload['merchant_ref']) ? $payload['merchant_ref'] : '';
+        $amount = isset($payload['amount']) ? $payload['amount'] : 0;
         $payload['signature'] =  Generator::makeSignature($merchantRef, $amount);
 
         return $this->httpClient->post(BaseApi::ENDPOINT_TRANSACTION_REQUEST, $payload);
